@@ -79,55 +79,34 @@ def hunt_boss():
 
 
 def send_to_fight():
-      clickCounter = 0
-      fightCounter = 0
-      while (clickCounter <= 3):
+      counter = 0
+      while (counter <= 3):
         cordsFullEnergy = pyautogui.locateCenterOnScreen('assets/full-hero.png',confidence=0.9)
         if(cordsFullEnergy):
           logging.info('Enviando para lutar...')
           pyautogui.click(cordsFullEnergy)
-          if(clickCounter <= 3):
-               clickCounter += 1
-        logging.info(clickCounter <= 3)
-        logging.info(f'Cliando no Hero {clickCounter}.')
-      else:
-        while (fightCounter <= 3):  
-            logging.info('Começando a luta.')
-            cordsFight = pyautogui.locateCenterOnScreen('assets/play.png',confidence=0.9)
-            fightCounter +=1
-            logging.info(f'Lutando {fightCounter} vez.')
-            time.sleep(5)
-            pyautogui.click(cordsFight)
-            clickCounter = 0        
-            time.sleep(20)
-            cordsWinFight = pyautogui.locateCenterOnScreen('assets/next-win.png',confidence=0.9)
-            if(cordsWinFight):
-                logging.info('Vitória detectada.')
-                pyautogui.click(cordsWinFight)
-                time.sleep(10)
-            cordsContinue = pyautogui.locateCenterOnScreen('assets/next.png',confidence=0.9)
-            if(cordsContinue):
-                logging.info('Continuando...')
-                pyautogui.click(cordsContinue)
-                time.sleep(10)
+          if(counter < 3):
+               counter += 1
+          logging.info(f'Cliando no Hero {counter}.')
         else:
-            logging.info('Fim do loop.')
+          logging.info('Começando a luta.')
+          cordsFight = pyautogui.locateCenterOnScreen('assets/play.png',confidence=0.9)
+          time.sleep(5)
+          pyautogui.click(cordsFight)
+          counter = 0        
+     
+           
 def main():
     global images
     images = load_images()
-
-
-        #logging.info('Iniciando bot...')
-        #loginLuna = login()
-        #if(loginLuna):
-        #   logging.info('Iniciando o hunt boss...')
-        #  time.sleep(10)
-        # hunt_boss()
-    try:
-        send_to_fight()
-    except Exception as e:
-        logging.error(f'ERROR: {e} - Erro ao executar o bot.')
-        #else:
-        #   logging.info('Login não realizado.')
+    #logging.info('Iniciando bot...')
+    #loginLuna = login()
+    #if(loginLuna):
+     #   logging.info('Iniciando o hunt boss...')
+      #  time.sleep(10)
+       # hunt_boss()
+    send_to_fight()
+    #else:
+     #   logging.info('Login não realizado.')
 
 main()    
