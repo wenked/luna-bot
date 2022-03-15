@@ -9,6 +9,18 @@ logging.basicConfig(format='%(asctime)s - %(message)s', level=logging.INFO)
 pyautogui.PAUSE = 5
 
 
+def click_on_image(image_name,process,delay=10):
+    cords = pyautogui.locateCenterOnScreen(image_name,confidence=0.9)
+    if(cords):
+        logging.info(f'{process} detectado.')
+        pyautogui.click(cords)
+        time.sleep(delay)
+        return True
+    else:
+        logging.info(f'{process} não detectado.')
+        return False
+
+
 def remove_suffix(input_string, suffix):
     """Returns the input_string without the suffix"""
 
@@ -34,51 +46,37 @@ def load_images(dir_path='./assets/'):
 
 
 def login():
+    logging.info('Iniciando login...')
 
-    cordsLogin = pyautogui.locateCenterOnScreen('assets/luna-login-2.png',confidence=0.9)
-    if(cordsLogin): 
-        logging.info(cordsLogin)
-        logging.info('Login detectado.')
-        pyautogui.click(cordsLogin)
-        time.sleep(10)
-        cordsMetamask = pyautogui.locateCenterOnScreen('assets/metamask-sign.png',confidence=0.9)
-        logging.info(cordsMetamask)
-        time.sleep(10)
-        if(cordsMetamask):
+    if(click_on_image('assets/luna-login-2.png','Login',10)):
+        logging.info('Login realizado com sucesso.')
+        if(click_on_image('assets/metamask-sign.png','Metamask',10)): 
             logging.info('Metamask detectado.')
-            pyautogui.click(cordsMetamask)
             return True
         else:
             logging.info('Metamask não detectado.')
-            return False
+            return False  
     else:
-        logging.warning('Login não detectado.')        
-
+        logging.info('Falha ao realizar o login')       
+        return False
     
 
 def hunt_boss():
-    cordsHuntBoss = pyautogui.locateCenterOnScreen('assets/hunt-boss.png',confidence=0.9)
     
-    if(cordsHuntBoss):
-        logging.info('Hunt Boss detectado.')
-        pyautogui.click(cordsHuntBoss)
-        time.sleep(10)
-        cordsNotFull = pyautogui.locateCenterOnScreen('assets/not-full.png',confidence=0.9)
-        logging.info(cordsNotFull)
-        if(cordsNotFull):
-            logging.info('Hunt Boss não está full.')
-            pyautogui.click(cordsNotFull) 
-            send_to_fight()   
+    if(click_on_image('assets/hunt-boss.png','Hunt Boss',10)):
+        logging.info('Hunt Boss realizado com sucesso.')
+        if(click_on_image('assets/not-full.png','Boss não full energy',5)):
+            send_to_fight()
         else:
-            logging.info('Hunt Boss está full.')    
-        
-        return True
+            logging.info('Hunt Boss está full.')
+        return True    
     else:
         logging.info('Hunt Boss não detectado.')
         return False
 
 
 def send_to_fight():
+    
       clickCounter = 0
       fightCounter = 0
       while (clickCounter <= 3):
@@ -123,15 +121,16 @@ def main():
     global images
     images = load_images()
 
-
-        #logging.info('Iniciando bot...')
-        #loginLuna = login()
-        #if(loginLuna):
-        #   logging.info('Iniciando o hunt boss...')
-        #  time.sleep(10)
-        # hunt_boss()
     try:
-        send_to_fight()
+        logging.info('Iniciando bot...')
+        loginLuna = login()
+        print(loginLuna)
+        if(loginLuna):
+            logging.info('Iniciando o hunt boss...')
+            time.sleep(10)
+            hunt_boss()
+        
+            send_to_fight()
     except Exception as e:
         logging.error(f'ERROR: {e} - Erro ao executar o bot.')
         #else:
