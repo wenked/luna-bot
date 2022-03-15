@@ -99,17 +99,24 @@ def send_to_fight():
             time.sleep(5)
             pyautogui.click(cordsFight)
             clickCounter = 0        
-            time.sleep(20)
+            time.sleep(25)
             cordsWinFight = pyautogui.locateCenterOnScreen('assets/next-win.png',confidence=0.9)
             if(cordsWinFight):
                 logging.info('Vitória detectada.')
                 pyautogui.click(cordsWinFight)
                 time.sleep(10)
-            cordsContinue = pyautogui.locateCenterOnScreen('assets/next.png',confidence=0.9)
-            if(cordsContinue):
-                logging.info('Continuando...')
-                pyautogui.click(cordsContinue)
-                time.sleep(10)
+                cordsContinue = pyautogui.locateCenterOnScreen('assets/next.png',confidence=0.9)
+                if(cordsContinue):
+                    logging.info('Continuando...')
+                    pyautogui.click(cordsContinue)
+                    time.sleep(10)
+            else:
+                logging.info('Entrei no else') 
+                cordsContinue = pyautogui.locateCenterOnScreen('assets/next.png',confidence=0.9)
+                if(cordsContinue):
+                    logging.info('Continuando...')
+                    pyautogui.click(cordsContinue)
+                    time.sleep(10)
         else:
             logging.info('Fim do loop.')
 def main():
