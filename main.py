@@ -63,7 +63,7 @@ def positions(target, threshold=0.7,img = None):
     return rectangles
     
 def clickBtn(img, timeout=3, threshold = 0.7):
-    """Search for img in the scree, if found moves the cursor over it and clicks.
+    """Search for img in the screen, if found moves the cursor over it and clicks.
     Parameters:
         img: The image that will be used as an template to find where to click.
         timeout (int): Time in seconds that it will keep looking for the img before returning with fail
@@ -129,7 +129,7 @@ def load_images(dir_path='./assets/'):
 def login():
     logging.info('Iniciando login...')
 
-    if(click_on_image('assets/luna-login-2.png','Login',10)):
+    if  clickBtn(images['login-luna-2'],timeout=10,threshold=0.9):
         logging.info('Login realizado com sucesso.')
         if(click_on_image('assets/metamask-sign.png','Metamask',10)): 
             logging.info('Metamask detectado.')
