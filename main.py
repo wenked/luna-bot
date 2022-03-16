@@ -129,7 +129,7 @@ def load_images(dir_path='./assets/'):
 def login():
     logging.info('Iniciando login...')
 
-    if  clickBtn(images['login-luna-2'],timeout=10,threshold=0.9):
+    if  clickBtn(images['luna-login-2'],timeout=10,threshold=0.9):
         logging.info('Login realizado com sucesso.')
         if(click_on_image('assets/metamask-sign.png','Metamask',10)): 
             logging.info('Metamask detectado.')
